@@ -1,0 +1,8 @@
+SELECT product.name, SUM(orders.quantity) as total_ordered
+FROM product
+JOIN orders
+ON product.product_id = orders.product_id
+WHERE product.available_from > DATE_ADD(CURRENT_TIMESTAMP() , INTERVAL -1 YEAR)
+AND product.available_from < DATE_ADD(CURRENT_TIMESTAMP() , INTERVAL -1 MONTH)
+GROUP BY product.product_id
+HAVING SUM(orders.quantity) < 10
